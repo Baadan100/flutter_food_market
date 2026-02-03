@@ -42,21 +42,22 @@ Make sure you have the following installed:
 - macOS (required for iOS builds)
 
 Verify Flutter setup:
-
 ```bash
 flutter doctor
-Setup
-Clone the repository:
-
+```
+```bash
 git clone https://github.com/Baadan100/flutter_food_market.git
 cd flutter_food_market
-Install dependencies:
-
+```
+```bash
 flutter pub get
-Run the application:
-
+```
+```bash
 flutter run
+```
+
 📱 Supported Platforms
+
 ✅ Android
 
 ✅ iOS
@@ -64,8 +65,8 @@ flutter run
 🌐 Web (development & testing)
 
 🖥 Desktop (optional)
-
 📂 Project Structure
+
 The project follows a clean and modular structure to ensure scalability and ease of maintenance:
 
 lib/ – Application source code
@@ -77,6 +78,7 @@ ios/ – iOS-specific configuration
 test/ – Unit and widget tests
 
 🔒 Environment & Security
+
 Sensitive files and credentials are excluded via .gitignore, including:
 
 Firebase configuration files
@@ -90,14 +92,20 @@ Build artifacts
 This makes the repository safe for public access.
 
 🚧 Project Status
+
 This project is under active development and structured for production use.
 New features and improvements will be added incrementally.
 
 📄 License
+
 This project is currently private to the author.
 Licensing terms may be added in the future.
 
 👤 Author
-Developed by Baadan100
+
+Developed by Fahd Ali
 
 GitHub: https://github.com/Baadan100
+
+
+
