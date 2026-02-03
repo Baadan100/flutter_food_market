@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <!-- Basic Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- Primary Meta Tags -->
+  <title>كنوز البحر - Sea Treasures | طلب أسماك ومأكولات بحرية طازجة</title>
+  <meta name="title" content="كنوز البحر - Sea Treasures | طلب أسماك ومأكولات بحرية طازجة">
+  <meta name="description" content="كنوز البحر - تطبيق طلب أسماك ومأكولات بحرية طازجة. توصيل سريع خلال 30 دقيقة. صيد يومي طازج. أكثر من 50 نوع من المأكولات البحرية. عروض حصرية وولائم عائلية.">
+  <meta name="keywords" content="أسماك طازجة, مأكولات بحرية, توصيل أسماك, طلب أسماك أونلاين, جمبري, سلمون, تونة, مأكولات بحرية طازجة, توصيل سريع, صيد يومي">
+  <meta name="author" content="lorienx. Fahd Ali">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Arabic, English">
+  <meta name="revisit-after" content="7 days">
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#0D47A1">
+  <meta name="msapplication-TileColor" content="#0D47A1">
+  <meta name="msapplication-navbutton-color" content="#0D47A1">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://seafood-marketplace-c98ae.web.app/">
+  <meta property="og:title" content="كنوز البحر - Sea Treasures | طلب أسماك ومأكولات بحرية طازجة">
+  <meta property="og:description" content="كنوز البحر - تطبيق طلب أسماك ومأكولات بحرية طازجة. توصيل سريع خلال 30 دقيقة. صيد يومي طازج. أكثر من 50 نوع من المأكولات البحرية.">
+  <meta property="og:image" content="icons/Icon-512.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="كنوز البحر - Sea Treasures">
+  <meta property="og:locale" content="ar_SA">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:site_name" content="كنوز البحر">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://seafood-marketplace-c98ae.web.app/">
+  <meta property="twitter:title" content="كنوز البحر - Sea Treasures | طلب أسماك ومأكولات بحرية طازجة">
+  <meta property="twitter:description" content="كنوز البحر - تطبيق طلب أسماك ومأكولات بحرية طازجة. توصيل سريع خلال 30 دقيقة. صيد يومي طازج.">
+  <meta property="twitter:image" content="icons/Icon-512.png">
+  <meta property="twitter:image:alt" content="كنوز البحر - Sea Treasures">
+  
+  <!-- Apple iOS / Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="كنوز البحر">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+  <link rel="shortcut icon" type="image/png" href="favicon.png">
+  
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://seafood-marketplace-c98ae.web.app/">
+  
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://js.stripe.com">
+  <link rel="preconnect" href="https://www.gstatic.com">
+
+  <!-- Stripe.js -->
+  <script src="https://js.stripe.com/v3"></script>
+
+  <!-- Firebase Web SDKs (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+
+  <!-- Firebase initialization: الصق مفاتيح الويب هنا (apiKey/appId/measurementId) -->
+  <script>
+    window.firebaseConfig = {
+      apiKey: 'AIzaSyDVAG8BoMvaq0MyDZy6DLhgfHAtb-aIXnc',
+      appId: '1:742788581865:web:bcfa2e066ac1d672a02378',
+      projectId: 'seafood-marketplace-c98ae',
+      messagingSenderId: '742788581865',
+      authDomain: 'seafood-marketplace-c98ae.firebaseapp.com',
+      storageBucket: 'seafood-marketplace-c98ae.firebasestorage.app',
+      // اختياري: مراقبة التحليلات على الويب
+      measurementId: 'G-ZCTXEC6XDC'
+    };
+    // لا تعدل السطر التالي؛ يهيئ Firebase باستخدام الإعدادات أعلاه
+    if (typeof firebase !== 'undefined') {
+      firebase.initializeApp(window.firebaseConfig);
+      if (firebase.analytics) {
+        try { firebase.analytics(); } catch (_) {}
+      }
+    }
+  </script>
+</head>
+<body>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

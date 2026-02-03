@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // التحقق من صلاحية Admin من Firestore (وليس من token)
+    function isAdmin() {
+      return isSignedIn() && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Products
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Orders
+    match /orders/{orderId} {
+      // القراءة: المستخدم يقرأ طلباته، أو Admin يقرأ الكل
+      allow read: if isSignedIn() &&
+        (resource.data.userId == request.auth.uid || isAdmin());
+
+      // الإنشاء: المستخدم يمكنه إنشاء طلب له فقط
+      allow create: if isSignedIn() &&
+        request.resource.data.userId == request.auth.uid;
+
+      // التحديث: المستخدم يحدث طلبه، أو Admin يحدث أي طلب
+      allow update: if isSignedIn() &&
+        (resource.data.userId == request.auth.uid || isAdmin());
+
+      // الحذف: Admin فقط
+      allow delete: if isAdmin();
+    }
+
+    // Users
+    match /users/{userId} {
+      // القراءة: المستخدم يقرأ بياناته، أو Admin يقرأ الكل
+      allow read: if isSignedIn() &&
+        (request.auth.uid == userId || isAdmin());
+
+      // الكتابة: المستخدم يكتب بياناته فقط (مع حماية role)
+      // Admin يمكنه الكتابة في أي مستخدم
+      allow create: if isSignedIn() && 
+        (request.auth.uid == userId || isAdmin());
+      
+      allow update: if isSignedIn() && 
+        (request.auth.uid == userId || isAdmin()) &&
+        // حماية: لا يمكن تغيير role إلا إذا كان Admin
+        (isAdmin() || request.resource.data.role == resource.data.role);
+      
+      allow delete: if isAdmin();
+    }
+  }
+}
