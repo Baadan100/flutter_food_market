@@ -271,8 +271,8 @@ git push origin feature/your-feature-name
 
 ## 📞 التواصل
 
-- **البريد الإلكتروني**: [contact@elaunchcode.com](mailto:contact@elaunchcode.com)
-- **الموقع الرسمي**: [elaunchcode.com](https://elaunchcode.com)
+- **البريد الإلكتروني**: [contact@lorienx.com](mailto:contact@lorienx.com)
+- **الموقع الرسمي**: [lorienx.com](https://lorienx.com)
 - **GitHub Issues**: للمناقشات التقنية
 
 ## 🙏 شكر وتقدير
