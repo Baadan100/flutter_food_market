@@ -1,29 +1,48 @@
 # Flutter Food Market
 
-A production-ready Flutter food market application targeting Android and iOS.
-The project is built with a clean and scalable architecture, focusing on
-maintainability, performance, and real-world deployment readiness.
+A **production-ready Flutter food market application** targeting **Android and iOS**.  
+This project is designed with a clean, scalable architecture and follows best practices for real-world deployment, long-term maintenance, and cross-platform development.
+
+---
 
 ## 🚀 Features
-- Cross-platform support (Android & iOS)
-- Clean and scalable Flutter architecture
-- iOS integration via Xcode on macOS
-- Production-oriented project structure
-- Ready for future extensions (payments, auth, APIs)
+
+- 📱 Cross-platform support (Android & iOS)
+- 🧱 Clean and scalable Flutter architecture
+- ⚡ Optimized for performance and maintainability
+- 🍎 iOS integration via Xcode on macOS
+- 🛠 Structured for production-ready workflows
+- 🔌 Ready for future extensions:
+  - Payments
+  - Authentication
+  - REST / GraphQL APIs
+  - Firebase or third-party services
+
+---
 
 ## 🛠 Tech Stack
-- Flutter (Dart)
-- Android SDK
-- iOS (Xcode)
-- Git & GitHub
+
+- **Flutter** (Dart)
+- **Android SDK**
+- **iOS SDK (Xcode)**
+- **Git & GitHub**
+- **Firebase** (planned / optional)
+
+---
 
 ## 📦 Getting Started
 
 ### Prerequisites
-- Flutter SDK
-- Android Studio or Xcode
-- macOS for iOS development
 
-### Setup
+Make sure you have the following installed:
+
+- Flutter SDK (stable channel)
+- Android Studio (for Android development)
+- Xcode (for iOS development)
+- macOS (required for iOS builds)
+
+Verify Flutter setup:
+
 ```bash
-flutter pub get
+flutter doctor
+
