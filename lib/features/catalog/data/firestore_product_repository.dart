@@ -1,26 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:shared/shared.dart';
 
 /// Repository للتعامل مع منتجات Firestore
 class FirestoreProductRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore get _firestore {
+    if (Firebase.apps.isEmpty) {
+      throw StateError(
+        'Firebase غير مهيأ. على iOS أضف GoogleService-Info.plist في ios/Runner.',
+      );
+    }
+    return FirebaseFirestore.instance;
+  }
+
   final String _collection = 'products';
 
   /// جلب جميع المنتجات
   Stream<List<Product>> getAllProducts() {
     // جلب بدون orderBy لتجنب مشاكل Index
     // يمكن إضافة orderBy لاحقاً بعد إنشاء Index في Firestore
-    return _firestore
-        .collection(_collection)
-        .snapshots()
-        .map((snapshot) {
+    return _firestore.collection(_collection).snapshots().map((snapshot) {
       if (snapshot.docs.isEmpty) {
         return <Product>[];
       }
       try {
-        final products = snapshot.docs
-            .map((doc) => Product.fromFirestore(doc))
-            .toList();
+        final products =
+            snapshot.docs.map((doc) => Product.fromFirestore(doc)).toList();
         // ترتيب حسب createdAt إذا كان موجوداً
         products.sort((a, b) {
           // يمكن إضافة ترتيب حسب createdAt هنا إذا كان موجوداً في Model
@@ -56,9 +61,7 @@ class FirestoreProductRepository {
         .orderBy('createdAt', descending: false)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs
-          .map((doc) => Product.fromFirestore(doc))
-          .toList();
+      return snapshot.docs.map((doc) => Product.fromFirestore(doc)).toList();
     });
   }
 
@@ -67,7 +70,7 @@ class FirestoreProductRepository {
     try {
       final snapshot = await _firestore.collection(_collection).get();
       final categories = <String>{};
-      
+
       for (var doc in snapshot.docs) {
         final data = doc.data();
         final category = data['category'] as String?;
@@ -75,7 +78,7 @@ class FirestoreProductRepository {
           categories.add(category);
         }
       }
-      
+
       return categories.toList()..sort();
     } catch (e) {
       throw Exception('فشل جلب الفئات: $e');
@@ -95,9 +98,7 @@ class FirestoreProductRepository {
         .where('nameAr', isLessThanOrEqualTo: '$query\uf8ff')
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs
-          .map((doc) => Product.fromFirestore(doc))
-          .toList();
+      return snapshot.docs.map((doc) => Product.fromFirestore(doc)).toList();
     });
   }
 }

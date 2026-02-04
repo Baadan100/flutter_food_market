@@ -1,9 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared/shared.dart';
 
 /// Repository للتعامل مع Firebase Authentication
 class FirebaseAuthRepository {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth get _auth {
+    if (Firebase.apps.isEmpty) {
+      throw Exception(
+        'Firebase غير مهيأ على هذا الجهاز. على iOS: أضف ملف GoogleService-Info.plist من Firebase Console إلى مجلد ios/Runner.',
+      );
+    }
+    return FirebaseAuth.instance;
+  }
 
   /// الحصول على المستخدم الحالي
   AppUser? get currentUser {

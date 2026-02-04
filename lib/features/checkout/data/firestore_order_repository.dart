@@ -1,10 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart' hide Order;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:shared/shared.dart';
 import '../../cart/domain/cart_item.dart';
 
 /// Repository للتعامل مع طلبات Firestore
 class FirestoreOrderRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore get _firestore {
+    if (Firebase.apps.isEmpty) {
+      throw StateError(
+        'Firebase غير مهيأ. على iOS أضف GoogleService-Info.plist في ios/Runner.',
+      );
+    }
+    return FirebaseFirestore.instance;
+  }
+
   final String _collection = 'orders';
 
   /// إنشاء طلب جديد
