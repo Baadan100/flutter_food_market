@@ -14,8 +14,14 @@ import 'core/services/stripe_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
-  await Firebase.initializeApp();
+  // Initialize Firebase (آمن: إذا فشل - مثلاً غياب GoogleService-Info.plist على iOS - التطبيق يفتح بدون شاشة بيضاء)
+  try {
+    await Firebase.initializeApp();
+  } catch (e, st) {
+    debugPrint(
+        'تحذير: فشل تهيئة Firebase (أضف GoogleService-Info.plist على iOS): $e');
+    debugPrint('$st');
+  }
 
   // Initialize Stripe (مع معالجة الأخطاء)
   try {
@@ -23,7 +29,7 @@ Future<void> main() async {
   } catch (e) {
     // إذا فشلت تهيئة Stripe، لن نوقف التطبيق
     // سيتم تهيئتها عند الاستخدام الفعلي
-    print('تحذير: فشل تهيئة Stripe في البداية: $e');
+    debugPrint('تحذير: فشل تهيئة Stripe في البداية: $e');
   }
 
   runApp(const ProviderScope(child: MyApp()));
