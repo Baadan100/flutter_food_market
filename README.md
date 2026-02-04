@@ -102,7 +102,7 @@ This project is currently private to the author.
 Licensing terms may be added in the future.
 
 👤 Author
-Developed by Fah Ali - Baadan100
+Developed by Fahd Ali - Baadan100
 website https://lorienx.com
 
 GitHub: https://github.com/Baadan100
