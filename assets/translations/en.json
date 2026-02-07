@@ -149,5 +149,8 @@
   "cannot_open_url": "Cannot open URL",
   "cannot_open_email": "Cannot open email app",
   "retry": "Retry",
-  "no_products": "No Products"
+  "no_products": "No Products",
+  "save": "Save",
+  "change_photo": "Change Photo",
+  "profile_updated": "Profile updated successfully"
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../auth/application/auth_controller.dart';
 import '../auth/presentation/auth_pages.dart';
 import '../orders/orders_page.dart';
 import '../settings/settings_page.dart';
+import 'edit_profile_page.dart';
 import '../../l10n/app_localizations.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -104,14 +106,40 @@ class ProfilePage extends ConsumerWidget {
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.white,
-                    child: Text(
-                      user.email[0].toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
+                    child: user.photoUrl != null && user.photoUrl!.isNotEmpty
+                        ? ClipOval(
+                            child: CachedNetworkImage(
+                              imageUrl: user.photoUrl!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                              placeholder: (_, __) => const SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: Center(child: CircularProgressIndicator()),
+                              ),
+                              errorWidget: (_, __, ___) => Text(
+                                user.name?.isNotEmpty == true
+                                    ? user.name![0].toUpperCase()
+                                    : user.email[0].toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Text(
+                            user.name?.isNotEmpty == true
+                                ? user.name![0].toUpperCase()
+                                : user.email[0].toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -146,7 +174,11 @@ class ProfilePage extends ConsumerWidget {
                     title: t.tr('edit_profile'),
                     subtitle: t.tr('edit_profile_desc'),
                     onTap: () {
-                      // Navigate to edit profile
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const EditProfilePage(),
+                        ),
+                      );
                     },
                   ),
                   const SizedBox(height: 12),

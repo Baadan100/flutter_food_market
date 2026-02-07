@@ -16,27 +16,22 @@ class FirebaseAuthRepository {
     return FirebaseAuth.instance;
   }
 
-  /// الحصول على المستخدم الحالي
-  AppUser? get currentUser {
-    final user = _auth.currentUser;
+  AppUser? _userFromFirebase(User? user) {
     if (user == null) return null;
     return AppUser(
       id: user.uid,
       email: user.email ?? '',
       name: user.displayName,
+      photoUrl: user.photoURL,
     );
   }
 
+  /// الحصول على المستخدم الحالي
+  AppUser? get currentUser => _userFromFirebase(_auth.currentUser);
+
   /// Stream للمستخدم الحالي (للاستماع للتغييرات)
   Stream<AppUser?> get authStateChanges {
-    return _auth.authStateChanges().map((user) {
-      if (user == null) return null;
-      return AppUser(
-        id: user.uid,
-        email: user.email ?? '',
-        name: user.displayName,
-      );
-    });
+    return _auth.authStateChanges().map(_userFromFirebase);
   }
 
   /// تسجيل الدخول بالبريد الإلكتروني وكلمة المرور
@@ -128,6 +123,23 @@ class FirebaseAuthRepository {
     } catch (e) {
       throw Exception('حدث خطأ أثناء تسجيل الخروج: $e');
     }
+  }
+
+  /// تحديث الملف الشخصي (الاسم، الصورة)
+  Future<AppUser> updateProfile({
+    String? displayName,
+    String? photoUrl,
+  }) async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw Exception('يجب تسجيل الدخول لتحديث الملف الشخصي');
+    }
+    if (displayName != null) await user.updateDisplayName(displayName);
+    if (photoUrl != null) await user.updatePhotoURL(photoUrl);
+    await user.reload();
+    final updated = _auth.currentUser;
+    if (updated == null) throw Exception('فشل تحديث الملف الشخصي');
+    return _userFromFirebase(updated)!;
   }
 
   /// إعادة تعيين كلمة المرور

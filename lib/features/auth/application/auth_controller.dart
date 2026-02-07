@@ -106,6 +106,23 @@ class AuthController extends StateNotifier<AuthState> {
       state = state.copyWith(errorMessage: e.toString());
     }
   }
+
+  Future<void> updateProfile({String? name, String? photoUrl}) async {
+    try {
+      state = state.copyWith(isLoading: true, errorMessage: null);
+      final user = await _authRepository.updateProfile(
+        displayName: name,
+        photoUrl: photoUrl,
+      );
+      state = state.copyWith(user: user, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(
+        errorMessage: e.toString(),
+        isLoading: false,
+      );
+      rethrow;
+    }
+  }
 }
 
 // Provider للـ Repository

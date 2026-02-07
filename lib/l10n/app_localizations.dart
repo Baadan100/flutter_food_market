@@ -169,6 +169,9 @@ class AppLocalizations {
       'copyright_text': 'lorienx. Fahd Ali',
       'cannot_open_url': 'لا يمكن فتح الرابط',
       'cannot_open_email': 'لا يمكن فتح تطبيق البريد الإلكتروني',
+      'save': 'حفظ',
+      'change_photo': 'تغيير الصورة',
+      'profile_updated': 'تم تحديث الملف الشخصي بنجاح',
     },
     'en': {
       'app_title': 'Sea Treasures',
@@ -332,6 +335,9 @@ class AppLocalizations {
       'copyright_text': 'lorienx. Fahd Ali',
       'cannot_open_url': 'Cannot open URL',
       'cannot_open_email': 'Cannot open email app',
+      'save': 'Save',
+      'change_photo': 'Change Photo',
+      'profile_updated': 'Profile updated successfully',
     },
   };
 
