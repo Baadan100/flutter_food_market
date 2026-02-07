@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -16,6 +17,7 @@ class EditProfilePage extends ConsumerStatefulWidget {
 class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   late final TextEditingController _nameController;
   XFile? _pickedImage;
+  Uint8List? _pickedImageBytes;
   bool _isLoading = false;
   String? _errorMessage;
 
@@ -42,26 +44,36 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
         imageQuality: 85,
       );
       if (picked != null) {
-        setState(() {
-          _pickedImage = picked;
-          _errorMessage = null;
-        });
+        final bytes = await picked.readAsBytes();
+        if (mounted) {
+          setState(() {
+            _pickedImage = picked;
+            _pickedImageBytes = bytes;
+            _errorMessage = null;
+          });
+        }
       }
     } catch (e) {
-      setState(() => _errorMessage = 'فشل اختيار الصورة: $e');
+      if (mounted) {
+        setState(() => _errorMessage = 'فشل اختيار الصورة: $e');
+      }
     }
   }
 
   Future<String?> _uploadPhoto(String userId) async {
-    if (_pickedImage == null) return null;
+    final bytes = _pickedImageBytes ??
+        (_pickedImage != null ? await _pickedImage!.readAsBytes() : null);
+    if (bytes == null || bytes.isEmpty) return null;
     try {
       final storageRef = FirebaseStorage.instance
           .ref()
           .child('users')
           .child(userId)
-          .child('profile.jpg');
-      final bytes = await _pickedImage!.readAsBytes();
-      await storageRef.putData(bytes);
+          .child('profile_${DateTime.now().millisecondsSinceEpoch}.jpg');
+      await storageRef.putData(
+        bytes,
+        SettableMetadata(contentType: 'image/jpeg'),
+      );
       return await storageRef.getDownloadURL();
     } catch (e) {
       if (mounted) {
@@ -157,23 +169,15 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                     radius: 60,
                     backgroundColor:
                         Theme.of(context).colorScheme.primaryContainer,
-                    child: _pickedImage != null
-                        ? FutureBuilder(
-                            future: _pickedImage!.readAsBytes(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              return ClipOval(
-                                child: Image.memory(
-                                  snapshot.data!,
-                                  width: 120,
-                                  height: 120,
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            },
+                    child: _pickedImageBytes != null
+                        ? ClipOval(
+                            child: Image.memory(
+                              _pickedImageBytes!,
+                              width: 120,
+                              height: 120,
+                              fit: BoxFit.cover,
+                              gaplessPlayback: true,
+                            ),
                           )
                         : user.photoUrl != null && user.photoUrl!.isNotEmpty
                             ? ClipOval(
@@ -185,28 +189,22 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                                   placeholder: (_, __) => const Center(
                                     child: CircularProgressIndicator(),
                                   ),
-                                  errorWidget: (_, __, ___) => Text(
-                                    user.name?.isNotEmpty == true
-                                        ? user.name![0].toUpperCase()
-                                        : user.email[0].toUpperCase(),
-                                    style: TextStyle(
-                                      fontSize: 40,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
+                                  errorWidget: (_, __, ___) => ClipOval(
+                                    child: Image.asset(
+                                      'logo.png',
+                                      width: 120,
+                                      height: 120,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
                               )
-                            : Text(
-                                user.name?.isNotEmpty == true
-                                    ? user.name![0].toUpperCase()
-                                    : user.email[0].toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: 40,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer,
+                            : ClipOval(
+                                child: Image.asset(
+                                  'logo.png',
+                                  width: 120,
+                                  height: 120,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                   ),

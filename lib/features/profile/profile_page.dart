@@ -118,26 +118,22 @@ class ProfilePage extends ConsumerWidget {
                                 height: 100,
                                 child: Center(child: CircularProgressIndicator()),
                               ),
-                              errorWidget: (_, __, ___) => Text(
-                                user.name?.isNotEmpty == true
-                                    ? user.name![0].toUpperCase()
-                                    : user.email[0].toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: 36,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
+                              errorWidget: (_, __, ___) => ClipOval(
+                                child: Image.asset(
+                                  'logo.png',
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                           )
-                        : Text(
-                            user.name?.isNotEmpty == true
-                                ? user.name![0].toUpperCase()
-                                : user.email[0].toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
+                        : ClipOval(
+                            child: Image.asset(
+                              'logo.png',
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
                             ),
                           ),
                   ),

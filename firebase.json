@@ -1,6 +1,4 @@
 {
-  "functions": {
-    "source": "functions"
-  }
+  "functions": {"source": "functions"},
+  "storage": {"rules": "storage.rules"}
 }
-
