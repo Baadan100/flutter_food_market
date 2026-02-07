@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart' hide Order;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared/shared.dart';
 import '../../cart/domain/cart_item.dart';
 
@@ -8,7 +9,9 @@ class FirestoreOrderRepository {
   FirebaseFirestore get _firestore {
     if (Firebase.apps.isEmpty) {
       throw StateError(
-        'Firebase غير مهيأ. على iOS أضف GoogleService-Info.plist في ios/Runner.',
+        kIsWeb
+            ? 'Firebase غير مهيأ. على الويب: تحقق من اتصال الإنترنت وملف index.html.'
+            : 'Firebase غير مهيأ. على iOS: أضف GoogleService-Info.plist في ios/Runner.',
       );
     }
     return FirebaseFirestore.instance;

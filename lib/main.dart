@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,12 +15,27 @@ import 'core/services/stripe_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase (آمن: إذا فشل - مثلاً غياب GoogleService-Info.plist على iOS - التطبيق يفتح بدون شاشة بيضاء)
+  // Initialize Firebase
   try {
-    await Firebase.initializeApp();
+    if (kIsWeb) {
+      // على الويب: تهيئة صريحة لتجنب مشاكل توقيت تحميل JS
+      await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: 'AIzaSyDVAG8BoMvaq0MyDZy6DLhgfHAtb-aIXnc',
+          appId: '1:742788581865:web:bcfa2e066ac1d672a02378',
+          projectId: 'seafood-marketplace-c98ae',
+          messagingSenderId: '742788581865',
+          storageBucket: 'seafood-marketplace-c98ae.firebasestorage.app',
+          authDomain: 'seafood-marketplace-c98ae.firebaseapp.com',
+          measurementId: 'G-ZCTXEC6XDC',
+        ),
+      );
+    } else {
+      // iOS/Android: يقرأ من GoogleService-Info.plist أو google-services.json
+      await Firebase.initializeApp();
+    }
   } catch (e, st) {
-    debugPrint(
-        'تحذير: فشل تهيئة Firebase (أضف GoogleService-Info.plist على iOS): $e');
+    debugPrint('تحذير: فشل تهيئة Firebase: $e');
     debugPrint('$st');
   }
 

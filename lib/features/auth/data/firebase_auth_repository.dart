@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared/shared.dart';
 
 /// Repository للتعامل مع Firebase Authentication
@@ -7,7 +8,9 @@ class FirebaseAuthRepository {
   FirebaseAuth get _auth {
     if (Firebase.apps.isEmpty) {
       throw Exception(
-        'Firebase غير مهيأ على هذا الجهاز. على iOS: أضف ملف GoogleService-Info.plist من Firebase Console إلى مجلد ios/Runner.',
+        kIsWeb
+            ? 'Firebase غير مهيأ. على الويب: تحقق من اتصال الإنترنت وملف index.html.'
+            : 'Firebase غير مهيأ. على iOS: أضف ملف GoogleService-Info.plist في ios/Runner.',
       );
     }
     return FirebaseAuth.instance;
