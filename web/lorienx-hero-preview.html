@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LorienX Hero Preview</title>
+  <style>
+    :root {
+      --bg: #081320;
+      --bg-2: #0f2035;
+      --surface: #12253d;
+      --surface-soft: rgba(18, 37, 61, 0.62);
+      --text: #f3f7ff;
+      --text-muted: #b3c5de;
+      --primary: #4da3ff;
+      --primary-strong: #2d7fe0;
+      --accent: #76ffd1;
+      --border: rgba(255, 255, 255, 0.15);
+      --success: #11c781;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      font-family: "Cairo", "Segoe UI", Tahoma, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #143055 0%, var(--bg) 42%, #050c15 100%);
+      color: var(--text);
+      min-height: 100%;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        radial-gradient(circle at 20% 22%, rgba(255, 255, 255, 0.19) 0.8px, transparent 0.9px),
+        radial-gradient(circle at 70% 75%, rgba(255, 255, 255, 0.17) 0.8px, transparent 0.9px);
+      background-size: 4px 4px, 5px 5px;
+      z-index: 0;
+    }
+
+    .hero-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .logo-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(140deg, var(--primary), var(--accent));
+      box-shadow: 0 0 0 5px rgba(77, 163, 255, 0.16);
+    }
+
+    .top-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 100px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 34px;
+      align-items: center;
+      min-height: calc(100vh - 140px);
+    }
+
+    .hero-left {
+      max-width: 620px;
+    }
+
+    .trust-line {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+    }
+
+    .trust-pill {
+      font-size: 0.79rem;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      padding: 7px 11px;
+      white-space: nowrap;
+    }
+
+    h1 {
+      margin: 0;
+      line-height: 1.26;
+      font-size: clamp(1.8rem, 4.4vw, 3.35rem);
+      letter-spacing: 0.3px;
+    }
+
+    .headline-highlight {
+      background: linear-gradient(90deg, var(--accent), #9be7ff 45%, #ffffff 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .sub {
+      margin: 16px 0 26px;
+      color: var(--text-muted);
+      font-size: clamp(0.95rem, 1.65vw, 1.1rem);
+      line-height: 1.9;
+      max-width: 58ch;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 11px;
+      margin-bottom: 22px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 13px;
+      padding: 13px 18px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #59a5ff 60%, #8bc5ff);
+      color: #021426;
+      box-shadow: 0 12px 28px rgba(77, 163, 255, 0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .search-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .search-box input {
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 0.95rem;
+      padding: 10px;
+      outline: none;
+    }
+
+    .search-box input::placeholder {
+      color: #95a8c6;
+    }
+
+    .mini-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 13px 0 22px;
+    }
+
+    .mini-filters .chip {
+      padding: 7px 10px;
+      color: #d7e6fb;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .mini-filters .chip:hover {
+      border-color: rgba(119, 201, 255, 0.7);
+    }
+
+    .stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 11px 13px;
+      min-width: 134px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 5px;
+      letter-spacing: 0.2px;
+    }
+
+    .stat span {
+      color: var(--text-muted);
+      font-size: 0.86rem;
+    }
+
+    .hero-right {
+      position: relative;
+      min-height: 440px;
+      isolation: isolate;
+    }
+
+    .visual-base {
+      position: absolute;
+      inset: 30px 0 0;
+      background: linear-gradient(160deg, rgba(77, 163, 255, 0.2), rgba(16, 21, 31, 0.68));
+      border-radius: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .visual-base::before {
+      content: "";
+      position: absolute;
+      inset: -120px -20px auto;
+      height: 260px;
+      background: radial-gradient(circle, rgba(118, 255, 209, 0.22) 0%, rgba(118, 255, 209, 0) 72%);
+    }
+
+    .product-cards {
+      position: relative;
+      inset: 0;
+      height: 100%;
+      padding: 28px;
+      display: grid;
+      gap: 14px;
+      align-content: end;
+    }
+
+    .p-card {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(7, 20, 35, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(6px);
+      transform: translateY(0);
+      animation: floatCard 6s ease-in-out infinite;
+    }
+
+    .p-card:nth-child(2) {
+      animation-delay: 0.7s;
+    }
+
+    .p-card:nth-child(3) {
+      animation-delay: 1.4s;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #355e8f, #1e3553);
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+    }
+
+    .p-card h3 {
+      margin: 0 0 3px;
+      font-size: 0.95rem;
+    }
+
+    .p-card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    .price {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #bff8db;
+      white-space: nowrap;
+    }
+
+    .floating-note {
+      position: absolute;
+      z-index: 2;
+      padding: 10px 13px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(8, 18, 30, 0.8);
+      backdrop-filter: blur(4px);
+      font-size: 0.84rem;
+    }
+
+    .note-top {
+      top: -4px;
+      left: 28px;
+      color: #cde8ff;
+    }
+
+    .note-bottom {
+      bottom: -12px;
+      right: 16px;
+      color: #d7ffe7;
+      border-color: rgba(17, 199, 129, 0.45);
+    }
+
+    .catalog-placeholder {
+      max-width: 1200px;
+      margin: 0 auto 50px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .catalog-card {
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(4, 8, 12, 0.82);
+      backdrop-filter: blur(4px);
+      z-index: 10;
+    }
+
+    .modal.show {
+      display: grid;
+    }
+
+    .modal-content {
+      width: min(920px, 100%);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: #081421;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text);
+    }
+
+    .close-modal {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+
+    .video-placeholder {
+      padding: 44px 24px;
+      background: linear-gradient(170deg, #112c45, #081421 72%);
+      text-align: center;
+      color: #d6e9ff;
+    }
+
+    .video-placeholder strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-right {
+        min-height: 410px;
+      }
+
+      .hero-left {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        margin-bottom: 18px;
+      }
+
+      .top-links {
+        display: none;
+      }
+
+      .hero-wrapper {
+        padding-top: 18px;
+      }
+
+      .search-box {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .hero-right {
+        min-height: 370px;
+      }
+
+      .product-cards {
+        padding: 18px;
+      }
+
+      .p-card {
+        grid-template-columns: 56px 1fr;
+      }
+
+      .price {
+        grid-column: 2;
+      }
+
+      .note-top {
+        left: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <main class="hero-wrapper">
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo-dot" aria-hidden="true"></span>
+        LorienX
+      </div>
+      <div class="top-links">
+        <span class="chip">تحميل فوري</span>
+        <span class="chip">دفع آمن</span>
+        <span class="chip">رخصة استخدام واضحة</span>
+      </div>
+    </header>
+
+    <section class="hero" aria-label="Hero section preview">
+      <div class="hero-left">
+        <div class="trust-line" role="list" aria-label="عناصر الثقة">
+          <span class="trust-pill" role="listitem">+5,000 منتج رقمي جاهز</span>
+          <span class="trust-pill" role="listitem">دعم عربي سريع</span>
+          <span class="trust-pill" role="listitem">استرجاع خلال 7 أيام</span>
+        </div>
+
+        <h1>
+          أطلق مشروعك أسرع مع
+          <span class="headline-highlight">منتجات رقمية جاهزة للبيع</span>
+        </h1>
+
+        <p class="sub">
+          قوالب متاجر، ملفات تصميم، إضافات وأصول رقمية احترافية تمكّنك من الإنجاز
+          بسرعة وجودة أعلى. كل منتج موصوف بوضوح ويصل مباشرة بعد الدفع.
+        </p>
+
+        <div class="actions">
+          <button class="btn btn-primary" onclick="location.href='#catalog'">
+            تصفح الكاتالوج الآن
+          </button>
+          <button class="btn btn-secondary" id="openVideoBtn">
+            شاهد كيف يعمل LorienX في 60 ثانية
+          </button>
+        </div>
+
+        <form class="search-box" action="#catalog" method="get">
+          <input
+            type="search"
+            name="q"
+            placeholder="ابحث عن قالب، تصميم، أو ملف جاهز..."
+            aria-label="بحث داخل الكاتالوج"
+          >
+          <button class="btn btn-primary" type="submit">ابحث الآن</button>
+        </form>
+
+        <div class="mini-filters" aria-label="فلاتر سريعة">
+          <span class="chip">الأكثر مبيعًا</span>
+          <span class="chip">الجديد</span>
+          <span class="chip">قوالب المتاجر</span>
+          <span class="chip">تصاميم السوشيال</span>
+          <span class="chip">حزم كاملة</span>
+        </div>
+
+        <div class="stats" aria-label="إثبات اجتماعي">
+          <div class="stat">
+            <strong>+38K</strong>
+            <span>عميل اشترى من المنصة</span>
+          </div>
+          <div class="stat">
+            <strong>4.9/5</strong>
+            <span>متوسط تقييم المنتجات</span>
+          </div>
+          <div class="stat">
+            <strong>24/7</strong>
+            <span>دعم فني وتجاري</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right" aria-hidden="true">
+        <div class="floating-note note-top">تحويل أعلى +32% بعد تحسين الهيرو</div>
+
+        <div class="visual-base">
+          <div class="product-cards">
+            <article class="p-card">
+              <div class="thumb">TM</div>
+              <div>
+                <h3>حزمة قوالب متجر متكاملة</h3>
+                <p>جاهزة للنشر + صفحات هبوط محسنة</p>
+              </div>
+              <div class="price">$49</div>
+            </article>
+
+            <article class="p-card">
+              <div class="thumb">DS</div>
+              <div>
+                <h3>مجموعة تصاميم سوشيال ميديا</h3>
+                <p>ملفات قابلة للتعديل بجودة عالية</p>
+              </div>
+              <div class="price">$19</div>
+            </article>
+
+            <article class="p-card">
+              <div class="thumb">UX</div>
+              <div>
+                <h3>إضافات تحسين سرعة وتجربة المستخدم</h3>
+                <p>رفع الأداء ونتائج أفضل في SEO</p>
+              </div>
+              <div class="price">$29</div>
+            </article>
+          </div>
+        </div>
+
+        <div class="floating-note note-bottom">تحميل فوري + ترخيص واضح</div>
+      </div>
+    </section>
+  </main>
+
+  <section class="catalog-placeholder" id="catalog">
+    <div class="catalog-card">
+      <strong style="color:#fff;">منطقة الكاتالوج (Placeholder)</strong>
+      <p>
+        هذا مجرد امتداد بصري للمعاينة. عند الربط الفعلي، سيتم تحويل الزوار هنا
+        إلى أقسام المنتجات، المبيعات، والفئات الرئيسية.
+      </p>
+    </div>
+  </section>
+
+  <aside class="modal" id="videoModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <div class="modal-head">
+        <strong id="modalTitle">عرض تعريفي سريع</strong>
+        <button class="close-modal" id="closeVideoBtn">إغلاق</button>
+      </div>
+      <div class="video-placeholder">
+        <strong>مكان الفيديو التعريفي</strong>
+        <p>
+          اربط هنا فيديو قصير (6-10 ثوانٍ) يوضح قيمة المنصة ومسار الشراء.
+          يفضّل تشغيله عند الطلب فقط للحفاظ على سرعة الصفحة.
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    const modal = document.getElementById("videoModal");
+    const openVideoBtn = document.getElementById("openVideoBtn");
+    const closeVideoBtn = document.getElementById("closeVideoBtn");
+
+    function openModal() {
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal() {
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    openVideoBtn.addEventListener("click", openModal);
+    closeVideoBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeModal();
+    });
+  </script>
+</body>
+</html>
